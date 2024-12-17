@@ -5,6 +5,11 @@ import { generateSolution } from "../utils/queensSolver";
 
 const N = 8;
 
+const colors = [
+  "#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", 
+  "#98D8C8", "#F7DC6F", "#BB8FCE", "#F1948A"
+];
+
 export default function Home() {
   const [solution, setSolution] = useState(null);
 
@@ -31,18 +36,21 @@ export default function Home() {
       <h1 style={styles.title}>8 Queens Solution</h1>
       <div style={styles.grid}>
         {Array.from({ length: N }).map((_, row) =>
-          Array.from({ length: N }).map((_, col) => (
-            <div
-              key={`${row}-${col}`}
-              style={{
-                ...styles.cell,
-                backgroundColor: (row + col) % 2 === 0 ? "#f0d9b5" : "#b58863",
-                color: solution[row] === col ? "black" : "transparent",
-              }}
-            >
-              {solution[row] === col ? "🥬" : ""}
-            </div>
-          ))
+          Array.from({ length: N }).map((_, col) => {
+            const regionId = solution.colorRegions[row][col];
+            const color = colors[(regionId - 1) % colors.length];
+            return (
+              <div
+                key={`${row}-${col}`}
+                style={{
+                  ...styles.cell,
+                  backgroundColor: color,
+                }}
+              >
+                {solution.board[row] === col ? "🥬" : ""}
+              </div>
+            );
+          })
         )}
       </div>
       <button onClick={generateNewSolution} style={styles.button}>
@@ -51,6 +59,8 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 const styles = {
   container: {
