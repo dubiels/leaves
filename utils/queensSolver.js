@@ -37,27 +37,58 @@ function generateColorRegions(board) {
   let regions = Array(N).fill().map(() => Array(N).fill(0));
   let regionId = 1;
 
-  for (let row = 0; row < N; row++) {
-    let col = board[row];
-    if (regions[row][col] === 0) {
-      regions[row][col] = regionId;
-      let size = Math.floor(Math.random() * 3) + 1; // Random size 1-3
-      for (let i = 0; i < size; i++) {
-        let newRow = row + (Math.random() < 0.5 ? 1 : -1);
-        let newCol = col + (Math.random() < 0.5 ? 1 : -1);
-        if (newRow >= 0 && newRow < N && newCol >= 0 && newCol < N && regions[newRow][newCol] === 0) {
-          regions[newRow][newCol] = regionId;
-        }
-      }
-      regionId++;
-    }
+  // Helper function to check if a cell is valid and unassigned
+  function isValidCell(row, col) {
+    return row >= 0 && row < N && col >= 0 && col < N && regions[row][col] === 0;
   }
 
-  // Fill remaining cells
+  // Directions for expanding regions
+  const directions = [
+    [0, 1], [0, -1], [1, 0], [-1, 0],
+    [1, 1], [1, -1], [-1, 1], [-1, -1]
+  ];
+
+  // Create regions around each queen
+  for (let row = 0; row < N; row++) {
+    let col = board[row];
+    
+    // Mark queen's cell
+    regions[row][col] = regionId;
+
+    // Attempt to expand region
+    let expandedCells = 0;
+    for (let [dx, dy] of directions) {
+      let newRow = row + dx;
+      let newCol = col + dy;
+
+      if (isValidCell(newRow, newCol) && expandedCells < 3) {
+        regions[newRow][newCol] = regionId;
+        expandedCells++;
+      }
+    }
+
+    regionId++;
+  }
+
+  // Fill remaining unassigned cells
   for (let row = 0; row < N; row++) {
     for (let col = 0; col < N; col++) {
       if (regions[row][col] === 0) {
-        regions[row][col] = Math.floor(Math.random() * 8) + 1;
+        // Find a neighboring cell's region
+        for (let [dx, dy] of directions) {
+          let newRow = row + dx;
+          let newCol = col + dy;
+          
+          if (newRow >= 0 && newRow < N && newCol >= 0 && newCol < N && regions[newRow][newCol] !== 0) {
+            regions[row][col] = regions[newRow][newCol];
+            break;
+          }
+        }
+
+        // If still no region, assign a random one
+        if (regions[row][col] === 0) {
+          regions[row][col] = Math.floor(Math.random() * 8) + 1;
+        }
       }
     }
   }
