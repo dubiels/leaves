@@ -17,15 +17,6 @@ Queens is a logic puzzle based on the classic [N-Queens problem](https://en.wiki
 - **One queen per color region**
 - **No two queens touch, even diagonally**
 
-## Features
-
-✨ **Infinite Puzzles** – Generate unlimited unique puzzles with randomized solutions and color regions
-🎨 **Color Themes** – Switch between Classic, Pastel, Ocean, and Candy palettes
-🚦 **Real-time Validation** – Visual feedback with diagonal stripe errors for row/column/region/touching violations
-🏆 **Win Detection** – Celebratory message when you successfully place all 8 queens
-🏳️ **Give Up Option** – Reveal the solution if you get stuck
-📱 **Responsive Design** – Styled to match my [personal website](https://karolina.mgdubiel.com) aesthetic
-
 ## Tech Stack
 
 - **Next.js 15.1.0** with React 19.0.0
@@ -72,7 +63,3 @@ npm run build
 ```
 
 The `next.config.ts` is configured with `output: 'export'` and `basePath: '/leaves'` for subdirectory deployment.
-
-## Credits
-
-Inspired by LinkedIn's daily Queens puzzle. Built with ❤️ by [Karolina Dubiel](https://karolina.mgdubiel.com).
