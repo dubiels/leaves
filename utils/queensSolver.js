@@ -70,24 +70,24 @@ function generateColorRegions(board) {
     regionId++;
   }
 
-  // Fill remaining unassigned cells
-  for (let row = 0; row < N; row++) {
-    for (let col = 0; col < N; col++) {
-      if (regions[row][col] === 0) {
-        // Find a neighboring cell's region
-        for (let [dx, dy] of directions) {
-          let newRow = row + dx;
-          let newCol = col + dy;
-          
-          if (newRow >= 0 && newRow < N && newCol >= 0 && newCol < N && regions[newRow][newCol] !== 0) {
-            regions[row][col] = regions[newRow][newCol];
-            break;
-          }
-        }
-
-        // If still no region, assign a random one
+  // Fill remaining unassigned cells using flood fill approach
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (let row = 0; row < N; row++) {
+      for (let col = 0; col < N; col++) {
         if (regions[row][col] === 0) {
-          regions[row][col] = Math.floor(Math.random() * 8) + 1;
+          // Find a neighboring cell's region
+          for (let [dx, dy] of directions) {
+            let newRow = row + dx;
+            let newCol = col + dy;
+
+            if (newRow >= 0 && newRow < N && newCol >= 0 && newCol < N && regions[newRow][newCol] !== 0) {
+              regions[row][col] = regions[newRow][newCol];
+              changed = true;
+              break;
+            }
+          }
         }
       }
     }
