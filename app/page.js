@@ -210,7 +210,7 @@ export default function Home() {
 
       {hasWon && (
         <div style={styles.winMessage}>
-          🎉 Congratulations! You solved it! 🎉
+          Solved! 🎉
         </div>
       )}
 
@@ -284,7 +284,8 @@ export default function Home() {
           ← Back to main site
         </a>
         <p style={styles.footerText}>
-          Made with love by Karolina Dubiel using Next.js, React, and Tailwind CSS.
+          Made with 💖 by Karolina Dubiel using Next.js, React, and Tailwind CSS.
+          You can check out the source code on my <a href="https://github.com/dubiels/leaves">Github</a>
         </p>
       </div>
     </div>
@@ -378,9 +379,8 @@ const styles = {
     fontSize: "20px",
     fontWeight: "bold",
     fontFamily: "'Inter', sans-serif",
-    color: "#a7b0ca",
+    color: "#111",
     marginBottom: "15px",
-    textShadow: "0px 0px 10px #a7b0ca",
   },
   giveUpMessage: {
     fontSize: "16px",
