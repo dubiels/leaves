@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥬 Leaves
 
-## Getting Started
+An infinite clone of [LinkedIn's Queens puzzle game](https://www.linkedin.com/games/queens/), playable as many times as you want instead of just once daily.
 
-First, run the development server:
+**Play it live:** [karolina.mgdubiel.com/leaves](https://karolina.mgdubiel.com/leaves)
+
+## The Problem
+
+LinkedIn Queens is fun, but artificially limited to one puzzle per day. This project removes that constraint while maintaining the elegant puzzle mechanics.
+
+## What is Queens?
+
+Queens is a logic puzzle based on the classic [N-Queens problem](https://en.wikipedia.org/wiki/Eight_queens_puzzle). The goal is to place exactly 8 queens (represented as 🥬 leaves) on an 8×8 board such that:
+
+- **One queen per row**
+- **One queen per column**
+- **One queen per color region**
+- **No two queens touch, even diagonally**
+
+## Features
+
+✨ **Infinite Puzzles** – Generate unlimited unique puzzles with randomized solutions and color regions
+🎨 **Color Themes** – Switch between Classic, Pastel, Ocean, and Candy palettes
+🚦 **Real-time Validation** – Visual feedback with diagonal stripe errors for row/column/region/touching violations
+🏆 **Win Detection** – Celebratory message when you successfully place all 8 queens
+🏳️ **Give Up Option** – Reveal the solution if you get stuck
+📱 **Responsive Design** – Styled to match my [personal website](https://karolina.mgdubiel.com) aesthetic
+
+## Tech Stack
+
+- **Next.js 15.1.0** with React 19.0.0
+- **Custom N-Queens Solver** using backtracking algorithm with randomization
+- **Dynamic Region Generation** creates 8 color regions around queen positions
+- **Pure React State Management** (no external libraries)
+- **Inline CSS Styling** with dynamic border rendering and error stripe gradients
+
+## Local Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to play locally.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The puzzle generation happens in two steps:
 
-## Learn More
+1. **Queens Solver** ([utils/queensSolver.js](utils/queensSolver.js:20-34)) – Uses a randomized backtracking algorithm to generate valid queen placements
+2. **Region Generator** ([utils/queensSolver.js](utils/queensSolver.js:36-97)) – Creates 8 color regions by expanding from each queen's position, ensuring each region contains exactly one queen from the solution
 
-To learn more about Next.js, take a look at the following resources:
+The game validates moves in real-time, checking for:
+- Multiple queens in the same row/column
+- Multiple queens in the same color region
+- Queens touching diagonally (only adjacent cells, not entire diagonal lines)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is deployed as a static export on Cloudflare Pages under the `/leaves` subdirectory of my main site.
 
-## Deploy on Vercel
+### Building for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Build static export
+npm run build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Static files will be generated in the /out directory
+```
+
+The `next.config.ts` is configured with `output: 'export'` and `basePath: '/leaves'` for subdirectory deployment.
+
+## Credits
+
+Inspired by LinkedIn's daily Queens puzzle. Built with ❤️ by [Karolina Dubiel](https://karolina.mgdubiel.com).
